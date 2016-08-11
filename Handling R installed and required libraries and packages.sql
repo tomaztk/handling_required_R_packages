@@ -38,7 +38,7 @@ We will rephrase this code a little bit; parametrization of @script parameter!
 
 DECLARE @OutScript NVARCHAR(MAX) 
 SET @OutScript =N'library(Hmisc) 
-					library(test123)
+					#library(test123)
 					df <- data.frame(rcorr(as.matrix(sp_RStats_query), type="pearson")$P)
 					OutputDataSet<-df'
 
@@ -76,7 +76,7 @@ AND CHARINDEX('library(',R_Code,0) > 0
 )
 , fin AS
 (
-SELECT TOP 1 stuff((SELECT ' install.packages(''''' + REPLACE(REPLACE(REPLACE(c1.libname,'library',''),')',''),'(','') + ''''')'
+SELECT TOP 1 stuff((SELECT ' install.packages(''''' + REPLACE(REPLACE(REPLACE(c1.libname,'library',''),')',''),'(','') + ''''', dependencies = TRUE)'
               FROM CTE_R AS c1 
 			  WHERE 
 					c1.num = c2.num
